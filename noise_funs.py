@@ -102,7 +102,7 @@ def find_barriers(connection_source_receiver, road_segment_midpoint, buildings_s
         midpoint_for_s = Point(point_mid_barrier.coords[0][0], point_mid_barrier.coords[0][1], elevations[max_indices[0]]-h_vb)
         midpoint_for_r = Point(point_mid_barrier.coords[0][0], point_mid_barrier.coords[0][1], elevations[max_indices[1]]-h_vm)
         reflection_plane_source_side = LineString([reflection_plane_source_side.coords[0], midpoint_for_s.coords[0]])
-        reflection_plane_receiver_size = LineString([midpoint_for_r.coords[0], reflection_plane_receiver_side.coords[1]])
+        reflection_plane_receiver_side = LineString([midpoint_for_r.coords[0], reflection_plane_receiver_side.coords[1]])
         
     else: # No building or terrain barrier
         max_indices = np.array([0,0])

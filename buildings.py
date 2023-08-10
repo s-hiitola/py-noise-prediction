@@ -8,7 +8,6 @@ import pandas as pd
 import numpy as np
 from processing_funs import get_elevation_at_lat_lon
 
-
 def add_z_to_buildings(row):#.coords.xy
     xs, ys = row['geometry'].exterior.coords.xy
     points = []
