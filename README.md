@@ -2,7 +2,7 @@
 
 This code can be used for calculating noise levels near major roadways in Tampere. 
 The code is not very well organized and may require some sorting to make the running of the code more straightforward.
-With some work, it should be possible to calculate noise levels in any area of finland with traffic monitoring stations. https://www.digitraffic.fi/en/road-traffic/lam/
+With some work, it should be possible to calculate noise levels in any area in Finland with traffic monitoring stations. https://www.digitraffic.fi/en/road-traffic/lam/
 
 
 Calculating noise levels requires an elevation raster and traffic data. The code for downloading them is included in the load_and_combine_raster.py and traffic.py -files.
