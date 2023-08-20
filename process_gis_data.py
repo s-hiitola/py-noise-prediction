@@ -14,6 +14,7 @@ import tifffile as tiff
 import io
 import rasterio
 from rasterio.plot import show
+from sqlalchemy import create_engine
 import datetime as dt
 from processing_funs import *
 from noise_funs import *
@@ -479,12 +480,35 @@ delta_data = {
     'point_id': point_ids,
     'road_id': road_ids,
     'road_sub': road_subs,
-    'delta_L_r': delta_L_rs,
-    'delta_L_MS': delta_L_MSs,
-    'delta_L_AV': delta_L_AVs,
-    'delta_L_alpha': delta_L_alphas,
+    'delta_l_r': delta_L_rs,
+    'delta_l_ms': delta_L_MSs,
+    'delta_l_av': delta_L_AVs,
+    'delta_l_alpha': delta_L_alphas,
 }
 
 
 delta_df = pd.DataFrame(delta_data)
 delta_df.to_csv('delta_data.csv')
+
+# Remember to read traffic data
+traffic = pd.read_csv('traffic.csv', index_col=0)
+
+
+# Add username, password and database name
+user = 'username'
+password = 'password'
+host = 'localhost'
+port = '5432'
+database = 'database'
+
+# Create the connection string
+conn_str = f'postgresql://{user}:{password}@{host}:{port}/{database}'
+
+# Create the SQLAlchemy engine
+engine = create_engine(conn_str)
+
+# Write the road and point geodataframes to the PostGIS database
+delta_data.to_sql('nord_deltas', engine, if_exists='replace', index=False)
+roads.to_postgis('roads', engine, if_exists='replace', index=False)
+calculation_points.to_postgis('points', engine, if_exists='replace', index=True, index_label="id")
+traffic.to_sql('traffic', engine, if_exists='replace', index_label="id")
