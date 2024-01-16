@@ -7,9 +7,9 @@ import requests
 from api_key import API_KEY
 
 def create_bbox(center=None, outer_bounds=None, max_raster_dim=20000):
+    half_width = int(max_raster_dim / 2)
     if center is not None:
         x_center, y_center = center
-        half_width = int(max_raster_dim / 2)
         bbox = {
             "nw": [x_center - half_width, y_center,
                    x_center, y_center + half_width],
@@ -26,10 +26,10 @@ def create_bbox(center=None, outer_bounds=None, max_raster_dim=20000):
         if x_max - x_min > max_raster_dim or y_max - y_min > max_raster_dim:
             raise ValueError("Outer bounds are too far apart for merging")
         bbox = {
-            "nw": [x_min, y_max - max_raster_dim, x_max - max_raster_dim, y_max],
-            "sw": [x_min, y_min + max_raster_dim, x_max - max_raster_dim, y_min],
-            "ne": [x_min + max_raster_dim, y_max - max_raster_dim, x_max, y_max],
-            "se": [x_min + max_raster_dim, y_min + max_raster_dim, x_max, y_min]
+            "nw": [x_min, y_max - half_width, x_max - half_width, y_max],
+            "sw": [x_min, y_min, x_max - half_width, y_max-half_width],
+            "ne": [x_max - half_width, y_max - half_width, x_max, y_max],
+            "se": [x_max - half_width, y_min, x_max, y_max-half_width]
         }
         return bbox
     else:
